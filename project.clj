@@ -1,4 +1,4 @@
-(defproject simple-re-frame "0.5.0-alpha3"
+(defproject sheet-pad "0.1.0-alpha"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2816"]
                  [reagent "0.5.0-alpha3"]
@@ -13,7 +13,7 @@
   :profiles {:dev {:cljsbuild
                    {:builds {:client {:source-paths ["devsrc"]
                                       :compiler
-                                      {:main simpleexample.dev
+                                      {:main sheetpad.dev
                                        :optimizations :none
                                        :source-map true
                                        :source-map-timestamp true}}}}}

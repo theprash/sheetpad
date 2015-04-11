@@ -12,6 +12,9 @@
 
 - An example pad in mock text format:
 
+
+
+
 [widget price] = 8
 
 [widgets bought] = table:
