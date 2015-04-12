@@ -9,11 +9,15 @@
 
 (enable-console-print!)
 
+;; Helpers
+;-------------------------------------------------------------
+
 (defn print-db []
   (dispatch [:print-db]))
 
-(defonce initial-state
-  {:sheetpad {:items []}})
+(defn vec-remove
+  [coll pos]
+  (vec (concat (subvec coll 0 pos) (subvec coll (inc pos)))))
 
 (defn new-editable-element [value]
   {:value value
@@ -22,6 +26,9 @@
 (defn new-item [name value]
   {:name (new-editable-element name)
    :value (new-editable-element value)})
+
+(defonce initial-state
+  {:sheetpad {:items []}})
 
 ;; Handlers
 ;-------------------------------------------------------------
@@ -45,10 +52,22 @@
   :add-item-handler
   (path [:sheetpad :items])
   (fn [items [handler-name value]]
-    (conj items (new-item "Unnamed Item" "No Value"))))
+    (conj items (new-item "Unnamed Item" (rand 10)))))
+
+(register-handler
+  :delete-item-handler
+  (path [:sheetpad :items])
+  (fn [items [handler-name value]]
+    (vec-remove items value)))
 
 ;; Subscriptions
 ;-------------------------------------------------------------
+(register-sub
+  :sheetpad-sub
+  (fn
+    [db _]
+    (reaction (-> @db :sheetpad))))
+
 (register-sub
   :items-sub
   (fn
@@ -59,17 +78,24 @@
 ;-------------------------------------------------------------
 
 (defn display-edit-control [text]
-  [:span {:on-click #(println 1)} text])
+  [:input {:value text
+           :read-only "true"}])
 
-(defn render-item [{n :name v :value}]
-  [:div (display-edit-control (:value n)) ": " (display-edit-control (:value v))])
+(defn render-item [item-id {n :name v :value}]
+  [:div
+   (display-edit-control (:value n))
+   ": "
+   (display-edit-control (:value v))
+   [:span [:button
+           {:on-click #(dispatch [:delete-item-handler item-id])}
+           "x"]]])
 
 (defn items []
   (let [items-sub (subscribe [:items-sub])]
     (fn []
       (into [:div.items]
-            (map render-item
-                 @items-sub)))))
+            (map-indexed render-item
+                         @items-sub)))))
 
 (defn add-item []
   [:div.add-item
@@ -77,10 +103,15 @@
     {:on-click #(dispatch [:add-item-handler])}
     "Add"]])
 
+(defn db-view []
+  [:div.db-view
+   [:div (print-str @(subscribe [:sheetpad-sub]))]])
+
 (defn app []
   [:div
    [items]
-   [add-item]])
+   [add-item]
+   [db-view]])
 
 (defn ^:export run []
   (reagent/render [app]
