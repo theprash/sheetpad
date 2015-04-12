@@ -30,6 +30,14 @@
 (defonce initial-state
   {:sheetpad {:items []}})
 
+(def delete-keycode 46)
+
+(defn key-event-handler [handle-fn keycode]
+  (fn [e]
+    (when (= (.-keyCode e)
+             keycode)
+      (handle-fn e))))
+
 ;; Handlers
 ;-------------------------------------------------------------
 
@@ -82,7 +90,10 @@
            :read-only "true"}])
 
 (defn render-item [item-id {n :name v :value}]
-  [:div
+  [:div.item
+   {:on-key-down (key-event-handler
+                   #(dispatch [:delete-item-handler item-id])
+                   delete-keycode)}
    (display-edit-control (:value n))
    ": "
    (display-edit-control (:value v))
