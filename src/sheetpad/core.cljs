@@ -20,8 +20,7 @@
   (vec (concat (subvec coll 0 pos) (subvec coll (inc pos)))))
 
 (defn new-editable-element [value]
-  {:value value
-   :editing false})
+  {:value value})
 
 (defn new-item [name value]
   {:name (new-editable-element name)
@@ -36,6 +35,7 @@
   (fn [e]
     (when (= (.-keyCode e)
              keycode)
+      (.preventDefault e)
       (handle-fn e))))
 
 ;; Handlers
@@ -59,14 +59,20 @@
 (register-handler
   :add-item-handler
   (path [:sheetpad :items])
-  (fn [items [handler-name value]]
-    (conj items (new-item "Unnamed Item" (rand 10)))))
+  (fn [items _]
+    (conj items (new-item "[[unnamed]]" "-"))))
 
 (register-handler
   :delete-item-handler
   (path [:sheetpad :items])
-  (fn [items [handler-name value]]
+  (fn [items [_ value]]
     (vec-remove items value)))
+
+(register-handler
+  :set-value
+  (path [:sheetpad :items])
+  (fn [items [_ item-id item-attribute value]]
+    (assoc-in items [item-id item-attribute :value] value)))
 
 ;; Subscriptions
 ;-------------------------------------------------------------
@@ -85,18 +91,19 @@
 ;; HTML generation
 ;-------------------------------------------------------------
 
-(defn display-edit-control [text]
-  [:input {:value text
-           :read-only "true"}])
+(defn display-edit-control [item item-id item-attribute]
+  (let [value (-> item item-attribute :value)]
+    [:input {:value value
+             :on-change #(dispatch [:set-value item-id item-attribute (-> % .-target .-value)])}]))
 
-(defn render-item [item-id {n :name v :value}]
+(defn item [item-id item]
   [:div.item
    {:on-key-down (key-event-handler
                    #(dispatch [:delete-item-handler item-id])
                    delete-keycode)}
-   (display-edit-control (:value n))
+   (display-edit-control item item-id :name)
    ": "
-   (display-edit-control (:value v))
+   (display-edit-control item item-id :value)
    [:span [:button
            {:on-click #(dispatch [:delete-item-handler item-id])}
            "x"]]])
@@ -105,8 +112,7 @@
   (let [items-sub (subscribe [:items-sub])]
     (fn []
       (into [:div.items]
-            (map-indexed render-item
-                         @items-sub)))))
+            (map-indexed item @items-sub)))))
 
 (defn add-item []
   [:div.add-item
