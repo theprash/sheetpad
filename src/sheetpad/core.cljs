@@ -5,19 +5,10 @@
                                    path
                                    register-sub
                                    dispatch
-                                   subscribe]]))
+                                   subscribe]]
+            [sheetpad.util :as util]))
 
 (enable-console-print!)
-
-;; Helpers
-;-------------------------------------------------------------
-
-(defn print-db []
-  (dispatch [:print-db]))
-
-(defn vec-remove
-  [coll pos]
-  (vec (concat (subvec coll 0 pos) (subvec coll (inc pos)))))
 
 (defn new-editable-element [value]
   {:value value})
@@ -28,15 +19,6 @@
 
 (defonce initial-state
   {:sheetpad {:items []}})
-
-(def delete-keycode 46)
-
-(defn key-event-handler [handle-fn keycode]
-  (fn [e]
-    (when (= (.-keyCode e)
-             keycode)
-      (.preventDefault e)
-      (handle-fn e))))
 
 ;; Handlers
 ;-------------------------------------------------------------
@@ -66,7 +48,7 @@
   :delete-item-handler
   (path [:sheetpad :items])
   (fn [items [_ value]]
-    (vec-remove items value)))
+    (util/vec-remove items value)))
 
 (register-handler
   :set-value
@@ -98,9 +80,9 @@
 
 (defn item [item-id item]
   [:div.item
-   {:on-key-down (key-event-handler
+   {:on-key-down (util/key-event-handler
                    #(dispatch [:delete-item-handler item-id])
-                   delete-keycode)}
+                   util/delete-keycode)}
    (display-edit-control item item-id :name)
    ": "
    (display-edit-control item item-id :value)
