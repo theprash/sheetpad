@@ -24,13 +24,6 @@
 ;-------------------------------------------------------------
 
 (register-handler
-  :print-db
-  (fn
-    [db _]
-    (print db)
-    db))
-
-(register-handler
   :initialize
   (fn
     [db _]

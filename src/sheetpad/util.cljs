@@ -1,14 +1,4 @@
-(ns sheetpad.util
-  (:require-macros [reagent.ratom :refer [reaction]])
-  (:require [reagent.core :as reagent :refer [atom]]
-            [re-frame.core :refer [register-handler
-                                   path
-                                   register-sub
-                                   dispatch
-                                   subscribe]]))
-
-(defn print-db []
-  (dispatch [:print-db]))
+(ns sheetpad.util)
 
 (defn vec-remove
   [coll pos]
