@@ -4,12 +4,14 @@
             [sheetpad.util :as util]))
 
 
-(defn new-editable-element [value]
-  {:value value})
+(def new-item
+  {:name "[[unnamed]]"
+   :value "-"
+   :calculated-value nil})
 
-(defn new-item [name value]
-  {:name (new-editable-element name)
-   :value (new-editable-element value)})
+(defn calculate-value [items formula]
+  (when (= (first formula) "=")
+    1))
 
 (defonce initial-state
   {:sheetpad {:items []}})
@@ -24,7 +26,7 @@
   :add-item-handler
   (path [:sheetpad :items])
   (fn [items _]
-    (conj items (new-item "[[unnamed]]" "-"))))
+    (conj items new-item)))
 
 (register-handler
   :delete-item-handler
@@ -33,7 +35,16 @@
     (util/vec-remove items value)))
 
 (register-handler
+  :set-name
+  (path [:sheetpad :items])
+  (fn [items [_ item-id name]]
+    (assoc-in items [item-id :name] name)))
+
+(register-handler
   :set-value
   (path [:sheetpad :items])
-  (fn [items [_ item-id item-attribute value]]
-    (assoc-in items [item-id item-attribute :value] value)))
+  (fn [items [_ item-id value]]
+    (-> items
+        (assoc-in [item-id :value] value)
+        (assoc-in [item-id :calculated-value]
+                  (calculate-value items value)))))

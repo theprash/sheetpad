@@ -28,19 +28,29 @@
 ;; HTML generation
 ;-------------------------------------------------------------
 
-(defn display-edit-control [item item-id item-attribute]
-  (let [value (-> item item-attribute :value)]
-    [:input {:value value
-             :on-change #(dispatch [:set-value item-id item-attribute (-> % .-target .-value)])}]))
+(defn name-editor [item item-id]
+  (let [value (-> item :name)]
+    [:span
+     [:input {:value value
+              :on-change #(dispatch
+                            [:set-name item-id (-> % .-target .-value)])}]]))
+
+(defn value-editor [item item-id]
+  (let [value (-> item :value)]
+    [:span
+     [:input {:value value
+              :on-change #(dispatch
+                            [:set-value item-id (-> % .-target .-value)])}]]))
 
 (defn item [item-id item]
   [:div.item
    {:on-key-down (util/key-event-handler
                    #(dispatch [:delete-item-handler item-id])
                    util/delete-keycode)}
-   (display-edit-control item item-id :name)
-   ": "
-   (display-edit-control item item-id :value)
+   (name-editor item item-id)
+   (value-editor item item-id)
+   (when-let [calculated-value (:calculated-value item)]
+     [:span calculated-value])
    [:span [:button
            {:on-click #(dispatch [:delete-item-handler item-id])}
            "x"]]])
