@@ -5,7 +5,7 @@
 
 
 (def new-item
-  {:name "[[unnamed]]"
+  {:name "[unnamed]"
    :value "-"
    :calculated-value nil})
 
