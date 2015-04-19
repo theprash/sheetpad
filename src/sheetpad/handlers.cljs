@@ -46,5 +46,4 @@
   (fn [items [_ item-id value]]
     (-> items
         (assoc-in [item-id :value] value)
-        (assoc-in [item-id :calculated-value]
-                  (calculate-value items value)))))
+        (assoc-in [item-id :calculated-value] (calculate-value items value)))))

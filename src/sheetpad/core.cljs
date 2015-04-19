@@ -29,18 +29,20 @@
 ;-------------------------------------------------------------
 
 (defn name-editor [item item-id]
-  (let [value (-> item :name)]
+  (let [name (-> item :name)]
     [:span
-     [:input {:value value
+     [:input {:value name
               :on-change #(dispatch
-                            [:set-name item-id (-> % .-target .-value)])}]]))
+                            (let [new-name (-> % .-target .-value)]
+                              [:set-name item-id new-name]))}]]))
 
 (defn value-editor [item item-id]
   (let [value (-> item :value)]
     [:span
      [:input {:value value
               :on-change #(dispatch
-                            [:set-value item-id (-> % .-target .-value)])}]]))
+                            (let [new-value (-> % .-target .-value)]
+                              [:set-value item-id new-value]))}]]))
 
 (defn item [item-id item]
   [:div.item
