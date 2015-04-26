@@ -1,17 +1,18 @@
 (ns sheetpad.handlers
   (:require [re-frame.core :refer [register-handler
                                    path]]
-            [sheetpad.util :as util]))
+            [sheetpad.util :as util]
+            [sheetpad.calculate :as calc]))
 
 
 (def new-item
-  {:name "[unnamed]"
-   :value "-"
-   :calculated-value nil})
+  (let [value "-"]
+    {:name "[unnamed]"
+     :value value
+     :calculated-value (calc/calculate value)}))
 
-(defn calculate-value [items formula]
-  (when (= (first formula) "=")
-    1))
+(defn calculate-value [items value]
+  (calc/calculate value))
 
 (defonce initial-state
   {:sheetpad {:items []}})

@@ -3,7 +3,8 @@
                  [org.clojure/clojurescript "0.0-2816"]
                  [reagent "0.5.0-alpha3"]
                  [re-frame "0.2.0"]
-                 [figwheel "0.2.3-SNAPSHOT"]]
+                 [figwheel "0.2.3-SNAPSHOT"]
+                 [com.lucasbradstreet/instaparse-cljs "1.3.5"]]
 
   :plugins [[lein-cljsbuild "1.0.4"]
             [lein-figwheel "0.2.3-SNAPSHOT"]]
