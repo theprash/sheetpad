@@ -3,6 +3,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [re-frame.core :refer [register-sub
                                    dispatch]]
+            [sheetpad.handlers :as handlers]
             [sheetpad.render :as render]))
 
 (enable-console-print!)
