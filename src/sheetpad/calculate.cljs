@@ -6,11 +6,11 @@
 (def parser
   (insta/parser
     "cell = non-formula | formula
-     formula = '=' space? (symbol | num | string)? space?
+     non-formula = #'[^=].*' | ''
+     formula = '=' <space?> ((symbol | num | string) <space?>)*
      num = #'(\\d|\\.)+'
-     string = #'\".*\"'
-     non-formula = #'.*'
-     symbol = #'(\\w|-)+'
+     string = #'\"[^\"]*\"'
+     symbol = #'[^0-9\\.]' #'\\S*'
      space = #'\\s+'"))
 
 (defn calculate [value] (print-str (parser value)))
