@@ -7,10 +7,11 @@
   (insta/parser
     "cell = non-formula | formula
      non-formula = #'[^=].*' | ''
-     formula = '=' <space?> ((symbol | num | string) <space?>)*
+     formula = '=' <space?> ((num | string | symbol | item) <space?>)*
      num = #'(\\d|\\.)+'
      string = #'\"[^\"]*\"'
-     symbol = #'[^0-9\\.]' #'\\S*'
+     symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
+     item = '[' #'[^\\]]+' ']'
      space = #'\\s+'"))
 
 (defn calculate [value] (print-str (parser value)))
