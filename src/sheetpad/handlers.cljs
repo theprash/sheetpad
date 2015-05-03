@@ -4,15 +4,11 @@
             [sheetpad.util :as util]
             [sheetpad.calculate :as calc]))
 
-
 (def new-item
   (let [value "-"]
     {:name "[unnamed]"
      :value value
      :calculated-value (calc/calculate value)}))
-
-(defn calculate-value [items value]
-  (calc/calculate value))
 
 (defonce initial-state
   {:sheetpad {:items []}})
@@ -47,4 +43,4 @@
   (fn [items [_ item-id value]]
     (-> items
         (assoc-in [item-id :value] value)
-        (assoc-in [item-id :calculated-value] (calculate-value items value)))))
+        (assoc-in [item-id :calculated-value] (calc/calculate value)))))

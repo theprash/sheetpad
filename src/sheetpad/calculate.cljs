@@ -1,8 +1,6 @@
 (ns sheetpad.calculate
   (:require [instaparse.core :as insta]))
 
-(enable-console-print!)
-
 (def parser
   (insta/parser
     "cell = non-formula | formula
