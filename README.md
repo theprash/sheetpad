@@ -1,3 +1,5 @@
+**Work in progress!**
+
 Spreadsheet pros:
 - Reactive and declarative in nature.
     - Cells contain derived data according to a formula definition. Data changes cascade down to derived data immediately, keeping everything up to date at all times.
@@ -22,13 +24,14 @@ Core features of Sheetpad:
     Table
 
 - An example pad in mock text format:
+```
+[widget price] = 8
 
-    [widget price] = 8
-    
-    [widgets bought] = table:
-        | [Customer] | [Quantity] | [Paid] (([widgets bought].[Quantity] * [widget price]) * (1 - [discount])) |
-        --------------------------------------------------------------------------------------------------------
-        | Prash      | 4          | 28.8                                                                       |
-        | Steph      | 10         | 72                                                                         |
-    
-    [discount] = 10/100
+[widgets bought] = table:
+    | [Customer] | [Quantity] | [Paid] (([widgets bought].[Quantity] * [widget price]) * (1 - [discount])) |
+    --------------------------------------------------------------------------------------------------------
+    | Prash      | 4          | 28.8                                                                       |
+    | Steph      | 10         | 72                                                                         |
+
+[discount] = 10/100
+```
