@@ -5,7 +5,7 @@
   (insta/parser
     "cell = non-formula | formula
      non-formula = #'[^=].*' | ''
-     formula = '=' <space?> ((num | string | symbol | item) <space?>)*
+     formula = <'='> <space?> ((num | string | symbol | item) <space?>)*
      num = #'(\\d|\\.)+'
      string = #'\"[^\"]*\"'
      symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
