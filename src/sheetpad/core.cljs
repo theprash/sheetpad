@@ -4,7 +4,9 @@
             [re-frame.core :refer [register-sub
                                    dispatch]]
             [sheetpad.handlers :as handlers]
-            [sheetpad.render :as render]))
+            [sheetpad.render :as render]
+            [sheetpad.calculate :as calc]
+            [sheetpad.test :as test]))
 
 (enable-console-print!)
 
