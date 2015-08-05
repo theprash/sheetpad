@@ -23,15 +23,12 @@ Core features of Sheetpad:
 
 - An example pad in mock text format:
 
-
-
-
-[widget price] = 8
-
-[widgets bought] = table:
-    | [Customer] | [Quantity] | [Paid] (([widgets bought].[Quantity] * [widget price]) * (1 - [discount])) |
-    --------------------------------------------------------------------------------------------------------
-    | Prash      | 4          | 28.8                                                                       |
-    | Steph      | 10         | 72                                                                         |
-
-[discount] = 10/100
+    [widget price] = 8
+    
+    [widgets bought] = table:
+        | [Customer] | [Quantity] | [Paid] (([widgets bought].[Quantity] * [widget price]) * (1 - [discount])) |
+        --------------------------------------------------------------------------------------------------------
+        | Prash      | 4          | 28.8                                                                       |
+        | Steph      | 10         | 72                                                                         |
+    
+    [discount] = 10/100
