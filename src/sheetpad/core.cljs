@@ -5,8 +5,7 @@
                                    dispatch]]
             [sheetpad.handlers :as handlers]
             [sheetpad.render :as render]
-            [sheetpad.calculate :as calc]
-            [sheetpad.test :as test]))
+            [sheetpad.calculate :as calc]))
 
 (enable-console-print!)
 
