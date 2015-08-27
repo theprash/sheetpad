@@ -1,7 +1,7 @@
 (ns sheetpad.calculate
   (:require [instaparse.core :as insta]))
 
-(def parser
+(def parse
   (insta/parser
     "cell = non-formula | formula
      non-formula = #'[^=].*' | ''
@@ -12,4 +12,6 @@
      item = <'['> #'[^\\]]+' <']'>
      space = #'\\s+'"))
 
-(defn calculate [value] (print-str (parser value)))
+(defn calculate [value]
+  (print-str (-> value
+                 parse)))

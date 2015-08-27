@@ -6,12 +6,12 @@
 
 (deftest test-add
   (is (= [:cell [:formula [:num "1"] [:symbol "+"] [:num "1"]]]
-         (calc/parser "=1+1"))))
+         (calc/parse "=1+1"))))
 
 (deftest test-multiply
   (is (= [:cell [:formula [:num "1"] [:symbol "*"] [:num "1"]]]
-         (calc/parser "=1 * 1"))))
+         (calc/parse "=1 * 1"))))
 
 (deftest test-item
   (is (= [:cell [:formula [:item "a"]]]
-         (calc/parser "=[a]"))))
+         (calc/parse "=[a]"))))
