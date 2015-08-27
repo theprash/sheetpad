@@ -26,7 +26,7 @@
   (is (= [[:num "1"] [:symbol "*"] [:num "1"]]
          (calc/parse "=1*1")))
   (is (= [[:num "3"] [:symbol "*"] [:num "4"]]
-         (calc/parse "=3 * 4"))))
+         (calc/parse "=3 * 4 "))))
 
 (deftest test-parse-formula-item
   (is (= [[:item "a"]]
@@ -39,3 +39,17 @@
   (is (= [[:text ""]]
          (calc/parse "=\"\"")
          (calc/parse "=''"))))
+
+(deftest test-parse-formula-group
+  (is (= [[:group [:num "1"]]]
+         (calc/parse "=(1)")
+         (calc/parse "= ( 1 ) ")))
+  (is (= [[:group [:text ""]]]
+         (calc/parse "=('')")))
+  (is (= [[:num "1"]
+          [:symbol "/"]
+          [:group
+           [:group [:num "2"] [:symbol "+"] [:num "3"]]
+           [:symbol "*"]
+           [:num "4"]]]
+         (calc/parse "= 1 / ((2 + 3) * 4)"))))

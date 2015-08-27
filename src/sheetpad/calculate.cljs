@@ -5,7 +5,9 @@
   (insta/parser
     "cell = non-formula | formula
     <non-formula> = #'[^=].*' | text | num | ''
-    <formula> = <'='> <space?> ((num | quoted | symbol | item) <space?>)*
+    <formula> = <'='> formula-value
+    <formula-value> = <space?> ((num | quoted | symbol | item | group) <space?>)*
+    group = <'('> <space?> formula-value <space?> <')'>
     num = <space?> #'(\\d|\\.)+' <space?>
     <quoted> = <quote> text <quote>
     quote = '\"' | '\\''
