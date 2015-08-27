@@ -6,6 +6,8 @@
                  [lein-figwheel "0.3.7"]
                  [com.lucasbradstreet/instaparse-cljs "1.3.5"]]
 
+  :aliases {"auto-test" ["do" "clean," "cljsbuild" "auto" "test"]}
+
   :plugins [[lein-cljsbuild "1.0.6"]
             [lein-figwheel "0.3.7"]]
 
