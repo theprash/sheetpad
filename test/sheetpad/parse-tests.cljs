@@ -1,7 +1,5 @@
 (ns sheetpad.parse-tests
   (:require [cemerick.cljs.test :refer-macros [is are deftest testing use-fixtures done]]
-            [sheetpad.handlers :as handlers]
-            [sheetpad.render :as render]
             [sheetpad.calculate :as calc]))
 
 (deftest test-parse-empty
