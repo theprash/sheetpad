@@ -14,8 +14,8 @@
          (calc/parse " 123 "))))
 
 (deftest test-parse-text
-  (is (= [[:text "asdf"]]
-         (calc/parse "asdf"))))
+  (is (= [[:text "abc"]]
+         (calc/parse "abc"))))
 
 (deftest test-parse-formula-add
   (is (= [[:num "1"] [:symbol "+"] [:num "1"]]
@@ -31,3 +31,7 @@
 (deftest test-parse-formula-item
   (is (= [[:item "a"]]
          (calc/parse "=[a]"))))
+
+(deftest test-parse-formula-text
+  (is (= [[:text "abc"]]
+         (calc/parse "=\"abc\""))))
