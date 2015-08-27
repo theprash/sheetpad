@@ -27,7 +27,7 @@
                    util/delete-keycode)}
    (name-editor item item-id)
    (value-editor item item-id)
-   (when-let [calculated-value (:calculated-value item)]
+   (when-let [calculated-value (-> item :calculated-value print-str)]
      [:span calculated-value])
    [:span [:button
            {:on-click #(dispatch [:delete-item-handler item-id])}
