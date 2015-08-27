@@ -9,7 +9,7 @@
     num = <space?> #'(\\d|\\.)+' <space?>
     <quoted> = <quote> text <quote>
     quote = '\"' | '\\''
-    text = #'[^\"\\']+'
+    text = #'[^\"\\']*'
     symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
     item = <'['> #'[^\\]]+' <']'>
     space = #'\\s+'"))

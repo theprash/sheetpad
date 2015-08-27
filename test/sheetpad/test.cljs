@@ -34,6 +34,8 @@
 
 (deftest test-parse-formula-text
   (is (= [[:text "abc"]]
-         (calc/parse "=\"abc\"")))
-  (is (= [[:text "abc"]]
-         (calc/parse "='abc'"))))
+         (calc/parse "=\"abc\"")
+         (calc/parse "='abc'")))
+  (is (= [[:text ""]]
+         (calc/parse "=\"\"")
+         (calc/parse "=''"))))
