@@ -7,8 +7,9 @@
     <non-formula> = '' | #'[^=].*' | text | num
     <formula> = <'='> <space?> ((num | quoted | symbol | item) <space?>)*
     num = <space?> #'(\\d|\\.)+' <space?>
-    <quoted> = <'\"'> text <'\"'>
-    text = #'[^\"]+'
+    <quoted> = <quote> text <quote>
+    quote = '\"' | '\\''
+    text = #'[^\"\\']+'
     symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
     item = <'['> #'[^\\]]+' <']'>
     space = #'\\s+'"))
