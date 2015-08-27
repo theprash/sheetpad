@@ -13,6 +13,10 @@
          (calc/parse "123")
          (calc/parse " 123 "))))
 
+(deftest test-parse-text
+  (is (= [[:text "asdf"]]
+         (calc/parse "asdf"))))
+
 (deftest test-parse-formula-add
   (is (= [[:num "1"] [:symbol "+"] [:num "1"]]
          (calc/parse "=1+1")
