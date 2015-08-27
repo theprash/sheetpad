@@ -4,10 +4,10 @@
 (def parser
   (insta/parser
     "cell = non-formula | formula
-    <non-formula> = '' | #'[^=].*' | num | string
-    <formula> = <'='> <space?> ((num | string | symbol | item) <space?>)*
+    <non-formula> = '' | #'[^=].*' | num | text
+    <formula> = <'='> <space?> ((num | text | symbol | item) <space?>)*
     num = <space?> #'(\\d|\\.)+' <space?>
-    string = #'\"[^\"]*\"'
+    text = #'\"[^\"]*\"'
     symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
     item = <'['> #'[^\\]]+' <']'>
     space = #'\\s+'"))
