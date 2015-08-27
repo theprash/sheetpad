@@ -11,3 +11,7 @@
 (deftest test-multiply
   (is (= [:cell [:formula [:num "1"] [:symbol "*"] [:num "1"]]]
          (calc/parser "=1 * 1"))))
+
+(deftest test-item
+  (is (= [:cell [:formula [:item "a"]]]
+         (calc/parser "=[a]"))))

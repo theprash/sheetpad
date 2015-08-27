@@ -9,7 +9,7 @@
      num = #'(\\d|\\.)+'
      string = #'\"[^\"]*\"'
      symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
-     item = '[' #'[^\\]]+' ']'
+     item = <'['> #'[^\\]]+' <']'>
      space = #'\\s+'"))
 
 (defn calculate [value] (print-str (parser value)))
