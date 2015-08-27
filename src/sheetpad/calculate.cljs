@@ -4,16 +4,19 @@
 (def parser
   (insta/parser
     "cell = non-formula | formula
-    <non-formula> = #'[^=].*' | '' | num | string
+    <non-formula> = '' | #'[^=].*' | num | string
     <formula> = <'='> <space?> ((num | string | symbol | item) <space?>)*
-    num = #'(\\d|\\.)+'
+    num = <space?> #'(\\d|\\.)+' <space?>
     string = #'\"[^\"]*\"'
     symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
     item = <'['> #'[^\\]]+' <']'>
     space = #'\\s+'"))
 
 (defn parse [string]
-  (let [remove-cell-tag (fn [parsed] (subvec parsed 1))]
+  (let [remove-cell-tag
+        (fn [parsed] (if (vector? parsed)
+                       (subvec parsed 1)
+                       parsed))]
     (-> string
         parser
         remove-cell-tag)))

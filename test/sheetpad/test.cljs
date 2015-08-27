@@ -10,7 +10,8 @@
 
 (deftest test-parse-number
   (is (= [[:num "123"]]
-         (calc/parse "123"))))
+         (calc/parse "123")
+         (calc/parse " 123 "))))
 
 (deftest test-parse-formula-add
   (is (= [[:num "1"] [:symbol "+"] [:num "1"]]
