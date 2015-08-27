@@ -6,15 +6,16 @@
     "cell = non-formula | formula
     <non-formula> = #'[^=].*' | text | num | ''
     <formula> = <'='> formula-value
-    <formula-value> = <space?> ((num | quoted | symbol | item | group) <space?>)*
-    group = <'('> <space?> formula-value <space?> <')'>
+    <formula-value> = invalid | (<space?> ((num | quoted | symbol | item | group) <space?>)*)
+    group = <'('> formula-value <')'>
     num = <space?> #'(\\d|\\.)+' <space?>
     <quoted> = <quote> text <quote>
     quote = '\"' | '\\''
     text = #'[^\"\\']*'
     symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
     item = <'['> #'[^\\]]+' <']'>
-    space = #'\\s+'"))
+    space = #'\\s+'
+    invalid = #'.*'"))
 
 (defn parse [string]
   (let [remove-cell-tag (fn [parsed]

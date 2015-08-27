@@ -53,3 +53,7 @@
            [:symbol "*"]
            [:num "4"]]]
          (calc/parse "= 1 / ((2 + 3) * 4)"))))
+
+(deftest test-parse-formula-invalid
+  (is (= [[:invalid "$`"]]
+         (calc/parse "=$`"))))
