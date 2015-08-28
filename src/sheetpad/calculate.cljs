@@ -27,6 +27,10 @@
         parser
         remove-cell-tag)))
 
-(defn calculate [value]
+(defn calculate [parsed]
+  )
+
+(defn parse-and-calculate [value]
   (-> value
-      parse))
+      parse
+      calculate))
