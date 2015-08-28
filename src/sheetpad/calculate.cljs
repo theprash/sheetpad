@@ -29,6 +29,9 @@
 (defn calculate-binary [a [_ op] b]
   (case op
     "+" (+ (calculate a) (calculate b))
+    "-" (- (calculate a) (calculate b))
+    "*" (* (calculate a) (calculate b))
+    "/" (/ (calculate a) (calculate b))
     nil))
 
 (defn calculate [[tag & [a b c :as body]]]
