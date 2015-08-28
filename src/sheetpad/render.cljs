@@ -7,7 +7,7 @@
 (defn name-editor [item item-id]
   (let [name (-> item :name)]
     [:span
-     [:input {:raw-value name
+     [:input {:defaultValue name
               :on-change #(dispatch
                             (let [new-name (-> % .-target .-value)]
                               [:set-name item-id new-name]))}]]))
@@ -15,7 +15,7 @@
 (defn value-editor [item item-id]
   (let [value (-> item :raw-value)]
     [:span
-     [:input {:raw-value value
+     [:input {:defaultValue value
               :on-change #(dispatch
                             (let [new-value (-> % .-target .-value)]
                               [:set-value item-id new-value]))}]]))
