@@ -24,10 +24,10 @@
         parser
         remove-cell-tag)))
 
-(defn calculate [[tag & body]]
+(defn calculate [[tag & [a b c :as body]]]
   (case tag
-    :num (-> body first js/parseFloat)
-    :text (first body)
+    :num (js/parseFloat a)
+    :text a
     nil))
 
 (defn parse-and-calculate [value]
