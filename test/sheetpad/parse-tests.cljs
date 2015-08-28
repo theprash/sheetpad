@@ -16,14 +16,14 @@
          (calc/parse "abc"))))
 
 (deftest test-parse-formula-add
-  (is (= [[:num "1"] [:binary-op "+"] [:num "1"]]
+  (is (= [[:binary [:num "1"] [:op "+"] [:num "1"]]]
          (calc/parse "=1+1")
          (calc/parse "= 1 + 1 "))))
 
 (deftest test-parse-formula-multiply
-  (is (= [[:num "1"] [:binary-op "*"] [:num "1"]]
+  (is (= [[:binary [:num "1"] [:op "*"] [:num "1"]]]
          (calc/parse "=1*1")))
-  (is (= [[:num "3"] [:binary-op "*"] [:num "4"]]
+  (is (= [[:binary [:num "3"] [:op "*"] [:num "4"]]]
          (calc/parse "=3 * 4 "))))
 
 (deftest test-parse-formula-item
@@ -44,12 +44,13 @@
          (calc/parse "= ( 1 ) ")))
   (is (= [[:group [:text ""]]]
          (calc/parse "=('')")))
-  (is (= [[:num "1"]
-          [:binary-op "/"]
+  (is (= [[:binary [:num "1"]
+          [:op "/"]
           [:group
-           [:group [:num "2"] [:binary-op "+"] [:num "3"]]
-           [:binary-op "*"]
-           [:num "4"]]]
+           [:binary
+            [:group [:binary [:num "2"] [:op "+"] [:num "3"]]]
+            [:op "*"]
+            [:num "4"]]]]]
          (calc/parse "= 1 / ((2 + 3) * 4)"))))
 
 (deftest test-parse-formula-invalid

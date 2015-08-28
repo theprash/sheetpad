@@ -6,14 +6,14 @@
     "cell = non-formula | formula
     <non-formula> = #'[^=].*' | text | num | ''
     <formula> = <'='> formula-value
-    <formula-value> = invalid | binary | (<space?> ((num | quoted | item | group) <space?>)*)
+    <formula-value> = invalid | binary | <space?> ((num | quoted | item | group) <space?>)?
     group = <'('> formula-value <')'>
     num = <space?> #'(\\d|\\.)+' <space?>
     <quoted> = <quote> text <quote>
     quote = '\"' | '\\''
     text = #'[^\"\\']*'
-    <binary> = formula-value binary-op formula-value
-    binary-op = '+' | '-' | '*' | '/'
+    binary = formula-value op formula-value
+    op = '+' | '-' | '*' | '/'
     item = <'['> #'[^\\]]+' <']'>
     space = #'\\s+'
     invalid = #'.*'"))
