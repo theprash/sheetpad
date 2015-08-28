@@ -19,9 +19,10 @@
     invalid = #'.*'"))
 
 (defn parse [string]
-  (-> string
-      parser
-      second))
+  (let [remove-cell-tag second]
+    (-> string
+        parser
+        remove-cell-tag)))
 
 (defn calculate [parsed]
   )
