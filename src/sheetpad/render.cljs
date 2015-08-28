@@ -25,9 +25,6 @@
 
 (defn item [item-id item]
   [:div.item
-   {:on-key-down (util/key-event-handler
-                   #(dispatch [:delete-item-handler item-id])
-                   util/delete-keycode)}
    (name-editor item item-id)
    (value-editor item item-id)
    (calculated-value-display (-> item :calculated-value print-str))
