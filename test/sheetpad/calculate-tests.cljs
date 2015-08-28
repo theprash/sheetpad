@@ -8,3 +8,9 @@
          (calc/parse-and-calculate " 1 ")
          (calc/parse-and-calculate "=1")
          (calc/parse-and-calculate "= 1 "))))
+
+(deftest test-text
+  (is (= " abc "
+         (calc/parse-and-calculate " abc ")
+         (calc/parse-and-calculate "=' abc '")
+         (calc/parse-and-calculate "=\" abc \""))))
