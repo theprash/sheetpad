@@ -36,6 +36,7 @@
     :num (js/parseFloat a)
     :text a
     :binary (calculate-binary a b c)
+    :group (calculate a)
     nil))
 
 (defn parse-and-calculate [value]

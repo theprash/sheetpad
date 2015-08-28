@@ -19,3 +19,9 @@
   (is (= 7
          (calc/parse-and-calculate "=2+5")
          (calc/parse-and-calculate "= 3 + 4 "))))
+
+(deftest test-group
+  (is (= 7
+         (calc/parse-and-calculate "=(7)")
+         (calc/parse-and-calculate "= ( 7 ) ")
+         (calc/parse-and-calculate "=(1 + 2) + 4"))))
