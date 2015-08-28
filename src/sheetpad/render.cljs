@@ -2,7 +2,8 @@
   (:require [reagent.core :as reagent]
             [re-frame.core :refer [dispatch
                                    subscribe]]
-            [sheetpad.util :as util]))
+            [sheetpad.util :as util]
+            [cljs.pprint]))
 
 (defn name-editor [item item-id]
   (let [name (-> item :name)]
@@ -46,7 +47,7 @@
 
 (defn db-view []
   [:div.db-view
-   [:div (print-str @(subscribe [:sheetpad-sub]))]])
+   [:div (with-out-str (cljs.pprint/pprint @(subscribe [:sheetpad-sub])))]])
 
 (defn app []
   [:div
