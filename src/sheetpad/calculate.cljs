@@ -6,13 +6,15 @@
     "cell = non-formula | formula
     <non-formula> = #'[^=].*' | text | num | ''
     <formula> = <'='> formula-value
-    <formula-value> = invalid | (<space?> ((num | quoted | symbol | item | group) <space?>)*)
+    <formula-value> = invalid | binary | (<space?> ((num | quoted | symbol | item | group) <space?>)*)
     group = <'('> formula-value <')'>
     num = <space?> #'(\\d|\\.)+' <space?>
     <quoted> = <quote> text <quote>
     quote = '\"' | '\\''
     text = #'[^\"\\']*'
-    symbol = '+' | '-' | '*' | '/' | #'[a-zA-Z]\\w*'
+    symbol = #'[a-zA-Z]\\w*'
+    <binary> = formula-value binary-op formula-value
+    binary-op = '+' | '-' | '*' | '/'
     item = <'['> #'[^\\]]+' <']'>
     space = #'\\s+'
     invalid = #'.*'"))
