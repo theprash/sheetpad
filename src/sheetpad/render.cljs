@@ -27,7 +27,7 @@
   [:div.item
    (name-editor item item-id)
    (value-editor item item-id)
-   (calculated-value-display (-> item :calculated-value print-str))
+   (calculated-value-display (-> item :calculated-value))
    [:span [:button
            {:on-click #(dispatch [:delete-item-handler item-id])}
            "x"]]])
