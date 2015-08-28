@@ -20,6 +20,9 @@
                             (let [new-value (-> % .-target .-value)]
                               [:set-value item-id new-value]))}]]))
 
+(defn calculated-value-display [value]
+  [:input {:value value :read-only true}])
+
 (defn item [item-id item]
   [:div.item
    {:on-key-down (util/key-event-handler
@@ -27,8 +30,7 @@
                    util/delete-keycode)}
    (name-editor item item-id)
    (value-editor item item-id)
-   (when-let [calculated-value (-> item :calculated-value print-str)]
-     [:span calculated-value])
+   (calculated-value-display (-> item :calculated-value print-str))
    [:span [:button
            {:on-click #(dispatch [:delete-item-handler item-id])}
            "x"]]])

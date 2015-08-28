@@ -12,7 +12,7 @@
      :calculated-value nil}))
 
 (defonce initial-state
-  {:sheetpad {:items []}})
+  {:sheetpad {:items [new-item]}})
 
 (register-handler
   :initialize
