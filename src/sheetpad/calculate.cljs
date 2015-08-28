@@ -19,13 +19,9 @@
     invalid = #'.*'"))
 
 (defn parse [string]
-  (let [remove-cell-tag (fn [parsed]
-                          (if (vector? parsed)
-                            (subvec parsed 1)
-                            parsed))]
-    (-> string
-        parser
-        remove-cell-tag)))
+  (-> string
+      parser
+      second))
 
 (defn calculate [parsed]
   )
