@@ -7,8 +7,9 @@
 (def new-item
   (let [value "-"]
     {:name "[unnamed]"
-     :value value
-     :calculated-value (calc/calculate value)}))
+     :raw-value value
+     :parsed-value nil
+     :calculated-value nil}))
 
 (defonce initial-state
   {:sheetpad {:items []}})
@@ -41,6 +42,9 @@
   :set-value
   (path [:sheetpad :items])
   (fn [items [_ item-id value]]
-    (-> items
-        (assoc-in [item-id :value] value)
-        (assoc-in [item-id :calculated-value] (calc/parse-and-calculate value)))))
+    (let [parsed (calc/parse value)
+          calculated (calc/calculate parsed)]
+      (-> items
+          (assoc-in [item-id :raw-value] value)
+          (assoc-in [item-id :parsed-value] parsed)
+          (assoc-in [item-id :calculated-value] calculated)))))
