@@ -14,3 +14,8 @@
          (calc/parse-and-calculate " abc ")
          (calc/parse-and-calculate "=' abc '")
          (calc/parse-and-calculate "=\" abc \""))))
+
+(deftest test-add
+  (is (= 7
+         (calc/parse-and-calculate "=2+5")
+         (calc/parse-and-calculate "= 3 + 4 "))))

@@ -24,10 +24,18 @@
         parser
         remove-cell-tag)))
 
+(declare calculate)
+
+(defn calculate-binary [a [_ op] b]
+  (case op
+    "+" (+ (calculate a) (calculate b))
+    nil))
+
 (defn calculate [[tag & [a b c :as body]]]
   (case tag
     :num (js/parseFloat a)
     :text a
+    :binary (calculate-binary a b c)
     nil))
 
 (defn parse-and-calculate [value]
