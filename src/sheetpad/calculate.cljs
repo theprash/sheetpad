@@ -26,18 +26,26 @@
 
 (declare calculate)
 
-(defn calculate-binary [a [_ op] b]
-  (case op
-    "+" (+ (calculate a) (calculate b))
-    "-" (- (calculate a) (calculate b))
-    "*" (* (calculate a) (calculate b))
-    "/" (/ (calculate a) (calculate b))
-    nil))
+(defn calculate-binary [a [_ op] b items]
+  (let [calc #(calculate % items)]
+    (case op
+      "+" (+ (calc a) (calc b))
+      "-" (- (calc a) (calc b))
+      "*" (* (calc a) (calc b))
+      "/" (/ (calc a) (calc b))
+      nil)))
+
+(defn item-value [item-name items]
+  (->> items
+       (filter #(= item-name (% :name)))
+       first
+       :calculated-value))
 
 (defn calculate [[tag & [a b c :as body]] items]
   (case tag
     :num (js/parseFloat a)
     :text a
-    :binary (calculate-binary a b c)
-    :group (calculate a)
+    :binary (calculate-binary a b c items)
+    :group (calculate a items)
+    :item (item-value a items)
     nil))

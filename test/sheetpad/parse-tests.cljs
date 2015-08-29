@@ -28,7 +28,8 @@
 
 (deftest test-formula-item
   (is (= [:item "a"]
-         (calc/parse "=[a]"))))
+         (calc/parse "=[a]")
+         (calc/parse "= [a] "))))
 
 (deftest test-formula-text
   (is (= [:text "abc"]

@@ -1,6 +1,7 @@
 (ns sheetpad.calculate-tests
   (:require [cemerick.cljs.test :refer-macros [is are deftest testing use-fixtures done]]
-            [sheetpad.calculate :as calc]))
+            [sheetpad.calculate :as calc]
+            [sheetpad.handlers :as handlers]))
 
 (defn parse-and-calculate
   ([value]
@@ -37,3 +38,11 @@
          (parse-and-calculate "= ( 4 ) ")
          (parse-and-calculate "=(1 + 2) + 1")
          (parse-and-calculate "=(5 + 7) / 3"))))
+
+(deftest test-item-reference
+  (let [items [(merge handlers/new-item {:name "a" :calculated-value 3})
+               (merge handlers/new-item {:name "b" :calculated-value 2})]]
+    (is (= 3
+           (parse-and-calculate "=[a]" items)))
+    (is (= 5
+           (parse-and-calculate "=[a]+[b]" items)))))
