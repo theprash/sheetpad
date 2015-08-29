@@ -34,15 +34,10 @@
     "/" (/ (calculate a) (calculate b))
     nil))
 
-(defn calculate [[tag & [a b c :as body]]]
+(defn calculate [[tag & [a b c :as body]] items]
   (case tag
     :num (js/parseFloat a)
     :text a
     :binary (calculate-binary a b c)
     :group (calculate a)
-    nil))
-
-(defn parse-and-calculate [value]
-  (-> value
-      parse
-      calculate))
+    items))

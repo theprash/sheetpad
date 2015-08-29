@@ -43,7 +43,7 @@
   (path [:sheetpad :items])
   (fn [items [_ item-id value]]
     (let [parsed (calc/parse value)
-          calculated (calc/calculate parsed)]
+          calculated (calc/calculate parsed items)]
       (-> items
           (assoc-in [item-id :raw-value] value)
           (assoc-in [item-id :parsed-value] parsed)
