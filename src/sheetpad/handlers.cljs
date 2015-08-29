@@ -5,11 +5,10 @@
             [sheetpad.calculate :as calc]))
 
 (def new-item
-  (let [value "-"]
-    {:name "[unnamed]"
-     :raw-value value
-     :parsed-value nil
-     :calculated-value nil}))
+  {:name "[unnamed]"
+   :raw-value "-"
+   :parsed-value nil
+   :calculated-value nil})
 
 (defn update-item [item value items]
   (let [parsed (calc/parse value)
