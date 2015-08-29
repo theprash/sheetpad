@@ -21,8 +21,11 @@
   (-> items
       (update-in [item-id] #(update-item % value items))))
 
-(defonce initial-state
-  {:sheetpad {:items [new-item]}})
+(defn app-state [items]
+  {:sheetpad {:items items}})
+
+(def initial-state
+  (app-state [new-item]))
 
 (register-handler
   :initialize
