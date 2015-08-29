@@ -2,14 +2,14 @@
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [reagent.core :as reagent :refer [atom]]
             [re-frame.core :refer [register-sub
-                                   dispatch]]
+                                   dispatch-sync]]
             [sheetpad.handlers :as handlers]
             [sheetpad.render :as render]
             [sheetpad.calculate :as calc]))
 
 (enable-console-print!)
 
-(dispatch [:initialize])
+(dispatch-sync [:initialize])
 
 (register-sub
   :sheetpad-sub
