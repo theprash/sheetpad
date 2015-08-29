@@ -40,4 +40,4 @@
     :text a
     :binary (calculate-binary a b c)
     :group (calculate a)
-    items))
+    nil))
