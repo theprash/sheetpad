@@ -46,3 +46,14 @@
            (parse-and-calculate "=[a]" items)))
     (is (= 5
            (parse-and-calculate "=[a]+[b]" items)))))
+
+(deftest test-item-reference-update-order
+  (let [raw-items [(merge handlers/new-item {:name "a" :raw-value "1"})
+                   (merge handlers/new-item {:name "b" :raw-value "=[a]"})]
+        items (->> raw-items
+                   (mapv #(handlers/parse-and-calculate-item % raw-items)))]
+    (is (= 2
+           (-> items
+               (#(handlers/set-value-handler 0 "2" %))
+               second
+               :calculated-value)))))
