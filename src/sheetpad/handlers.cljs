@@ -10,14 +10,22 @@
    :parsed-value nil
    :calculated-value nil})
 
-(defn update-item [item value items]
-  (let [parsed (calc/parse value)
+(defn calculate-item [item items]
+  (let [calculated (calc/calculate (item :parsed-value) items)]
+    (merge item {:calculated-value calculated})))
+
+(defn parse-and-calculate-item [item items]
+  (let [parsed (calc/parse (item :raw-value))
         calculated (calc/calculate parsed items)]
-    (merge item {:raw-value value
-                 :parsed-value parsed
+    (merge item {:parsed-value parsed
                  :calculated-value calculated})))
 
-(defn update-item-id [item-id value items]
+(defn update-item [item value items]
+  (-> item
+      (assoc :raw-value value)
+      (parse-and-calculate-item items)))
+
+(defn set-value-handler [item-id value items]
   (-> items
       (update-in [item-id] #(update-item % value items))))
 
@@ -55,4 +63,4 @@
   :set-value
   (path [:sheetpad :items])
   (fn [items [_ item-id value]]
-    (update-item-id item-id value items)))
+    (set-value-handler item-id value items)))
