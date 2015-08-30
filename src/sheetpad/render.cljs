@@ -1,6 +1,7 @@
 (ns sheetpad.render
   (:require [reagent.core :as reagent]
             [re-frame.core :refer [dispatch
+                                   dispatch-sync
                                    subscribe]]
             [sheetpad.util :as util]
             [cljs.pprint]))
@@ -9,7 +10,7 @@
   (let [name (-> item :name)]
     [:span
      [:input {:value name
-              :on-change #(dispatch
+              :on-change #(dispatch-sync
                             (let [new-name (-> % .-target .-value)]
                               [:set-name item-id new-name]))}]]))
 
@@ -17,7 +18,7 @@
   (let [value (-> item :raw-value)]
     [:span
      [:input {:value value
-              :on-change #(dispatch
+              :on-change #(dispatch-sync
                             (let [new-value (-> % .-target .-value)]
                               [:set-value item-id new-value]))}]]))
 
