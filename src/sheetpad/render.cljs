@@ -3,7 +3,6 @@
             [re-frame.core :refer [dispatch
                                    dispatch-sync
                                    subscribe]]
-            [sheetpad.util :as util]
             [cljs.pprint]))
 
 (defn name-editor [item item-id]

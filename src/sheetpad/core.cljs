@@ -1,11 +1,9 @@
 (ns sheetpad.core
   (:require-macros [reagent.ratom :refer [reaction]])
-  (:require [reagent.core :as reagent :refer [atom]]
-            [re-frame.core :refer [register-sub
+  (:require [re-frame.core :refer [register-sub
                                    dispatch-sync]]
             [sheetpad.handlers :as handlers]
-            [sheetpad.render :as render]
-            [sheetpad.calculate :as calc]))
+            [sheetpad.render :as render]))
 
 (enable-console-print!)
 
