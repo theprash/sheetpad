@@ -5,8 +5,8 @@
             [sheetpad.calculate :as calc]))
 
 (def new-item
-  {:name "[unnamed]"
-   :raw-value "-"
+  {:name "-"
+   :raw-value ""
    :parsed-value nil
    :calculated-value nil})
 
