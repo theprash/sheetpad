@@ -11,6 +11,15 @@
        calc/parse
        (calc/calculate items))))
 
+(defn setup-items [& args]
+  (let [item-from-pair (fn [[name value]]
+                         (merge handlers/new-item {:name name :raw-value value}))]
+    (as-> args <>
+      (partition 2 <>)
+      (mapv item-from-pair <>)
+      (mapv #(handlers/parse-and-calculate-item % <>) <>)
+      (handlers/recalc-all-items <>))))
+
 (deftest test-number
   (is (= 1
          (parse-and-calculate "1")
@@ -47,13 +56,16 @@
     (is (= 5
            (parse-and-calculate "=[a]+[b]" items)))))
 
-(deftest test-item-reference-update-order
-  (let [raw-items [(merge handlers/new-item {:name "a" :raw-value "1"})
-                   (merge handlers/new-item {:name "b" :raw-value "=[a]"})]
-        items (->> raw-items
-                   (mapv #(handlers/parse-and-calculate-item % raw-items)))]
-    (is (= 2
+(deftest test-item-references
+  (let [items (setup-items "a" "1"
+                           "b" "=[a]+1"
+                           "c" "=[b]+1")]
+    (is (= 3
+           (-> items
+               last
+               :calculated-value)))
+    (is (= 4
            (-> items
                (#(handlers/set-value-handler 0 "2" %))
-               second
+               last
                :calculated-value)))))
