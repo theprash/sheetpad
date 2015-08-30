@@ -16,14 +16,14 @@
          (parse "abc"))))
 
 (deftest test-formula-add
-  (is (= [:binary [:num "1"] [:op "+"] [:num "1"]]
+  (is (= [:add [:num "1"] [:num "1"]]
          (parse "=1+1")
          (parse "= 1 + 1 "))))
 
 (deftest test-formula-multiply
-  (is (= [:binary [:num "1"] [:op "*"] [:num "1"]]
+  (is (= [:mul [:num "1"] [:num "1"]]
          (parse "=1*1")))
-  (is (= [:binary [:num "3"] [:op "*"] [:num "4"]]
+  (is (= [:mul [:num "3"] [:num "4"]]
          (parse "=3 * 4 "))))
 
 (deftest test-formula-item
@@ -45,12 +45,10 @@
          (parse "= ( 1 ) ")))
   (is (= [:group [:text ""]]
          (parse "=('')")))
-  (is (= [:binary [:num "1"]
-          [:op "/"]
+  (is (= [:div [:num "1"]
           [:group
-           [:binary
-            [:group [:binary [:num "2"] [:op "+"] [:num "3"]]]
-            [:op "*"]
+           [:mul
+            [:group [:add [:num "2"] [:num "3"]]]
             [:num "4"]]]]
          (parse "= 1 / ((2 + 3) * 4)"))))
 

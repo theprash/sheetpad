@@ -6,17 +6,22 @@
     "cell = non-formula | formula
     <non-formula> = #'[^=].*' | text | num | ''
     <formula> = <'='> formula-value
-    <formula-value> = invalid | binary | <space?> ((num | quoted | item | group) <space?>)?
+    <formula-value> = <space> (invalid | add-sub | num | quoted | item | group) <space>
     group = <'('> formula-value <')'>
-    num = <space?> #'(\\d|\\.)+' <space?>
+    num = <space> #'(\\d|\\.)+' <space>
     <quoted> = <quote> text <quote>
     quote = '\"' | '\\''
     text = #'[^\"\\']*'
-    binary = formula-value op formula-value
-    op = '+' | '-' | '*' | '/'
+    <add-sub> = mul-div | add | sub
+    add = add-sub <'+'> mul-div
+    sub = add-sub <'-'> mul-div
+    <mul-div> = term | mul | div
+    mul = mul-div <'*'> term
+    div = mul-div <'/'> term
+    <term> = formula-value | <'('> add-sub <')'>
     item = <'['> #'[^\\]]+' <']'>
-    space = #'\\s+'
-    invalid = #'.*'"))
+    space = #'\\s*'
+    invalid = #'.+'"))
 
 (defn parse [string]
   (let [remove-cell-tag second]
@@ -27,15 +32,6 @@
 
 (declare calculate)
 
-(defn calculate-binary [a [_ op] b items]
-  (let [calc #(calculate % items)]
-    (case op
-      "+" (+ (calc a) (calc b))
-      "-" (- (calc a) (calc b))
-      "*" (* (calc a) (calc b))
-      "/" (/ (calc a) (calc b))
-      nil)))
-
 (defn item-value [item-name items]
   (->> items
        (filter #(= item-name (% :name)))
@@ -43,10 +39,14 @@
        :calculated-value))
 
 (defn calculate [[tag & [a b c :as body]] items]
-  (case tag
-    :num (js/parseFloat a)
-    :text a
-    :binary (calculate-binary a b c items)
-    :group (calculate a items)
-    :item (item-value a items)
-    nil))
+  (let [calc #(calculate % items)]
+    (case tag
+      :num (js/parseFloat a)
+      :text a
+      :add (+ (calc a) (calc b))
+      :sub (- (calc a) (calc b))
+      :mul (* (calc a) (calc b))
+      :div (/ (calc a) (calc b))
+      :group (calculate a items)
+      :item (item-value a items)
+      nil)))

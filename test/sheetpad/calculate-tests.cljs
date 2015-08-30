@@ -46,3 +46,10 @@
            (parse-and-calculate "=[a]" items)))
     (is (= 5
            (parse-and-calculate "=[a]+[b]" items)))))
+
+(deftest test-arithmetic-precedence
+  (is (= 5
+         (parse-and-calculate "=1*2+3")
+         (parse-and-calculate "=3+1*2")
+         (parse-and-calculate "=10-10/2")
+         (parse-and-calculate "=-10/2 + 10"))))
