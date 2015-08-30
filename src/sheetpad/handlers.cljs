@@ -25,9 +25,20 @@
       (assoc :raw-value value)
       (parse-and-calculate-item items)))
 
+(defn recalc-all-items [items]
+  (let [item-count (count items)]
+    (loop [index 0
+           items items]
+      (if (= index item-count)
+        items
+        (recur
+          (inc index)
+          (update-in items [index] #(calculate-item % items)))))))
+
 (defn set-value-handler [item-id value items]
   (-> items
-      (update-in [item-id] #(update-item items % value))))
+      (update-in [item-id] #(update-item items % value))
+      recalc-all-items))
 
 (defn app-state [items]
   {:sheetpad {:items items}})
