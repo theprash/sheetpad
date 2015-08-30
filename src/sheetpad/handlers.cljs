@@ -20,14 +20,14 @@
     (merge item {:parsed-value parsed
                  :calculated-value calculated})))
 
-(defn update-item [item value items]
+(defn update-item [items item value]
   (-> item
       (assoc :raw-value value)
       (parse-and-calculate-item items)))
 
 (defn set-value-handler [item-id value items]
   (-> items
-      (update-in [item-id] #(update-item % value items))))
+      (update-in [item-id] #(update-item items % value))))
 
 (defn app-state [items]
   {:sheetpad {:items items}})
