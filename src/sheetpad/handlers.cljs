@@ -62,7 +62,9 @@
   :delete-item-handler
   (path [:sheetpad :items])
   (fn [items [_ value]]
-    (util/vec-remove items value)))
+    (-> items
+        (util/vec-remove value)
+        recalc-all-items)))
 
 (register-handler
   :set-name
