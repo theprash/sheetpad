@@ -21,6 +21,7 @@
 (defn parse [string]
   (let [remove-cell-tag second]
     (-> string
+        str
         parser
         remove-cell-tag)))
 
