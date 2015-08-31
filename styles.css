@@ -2,3 +2,12 @@ div, h1, input, button {
     font-family: HelveticaNeue, Helvetica;
     font-size: 105%;
 }
+
+.item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+input[readonly] {
+    background-color: #EEF;
+}
