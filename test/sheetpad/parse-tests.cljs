@@ -9,7 +9,13 @@
 (deftest test-number
   (is (= [:num "123"]
          (parse "123")
-         (parse " 123 "))))
+         (parse "+123")
+         (parse " 123 ")))
+  (is (= [:num "-123.0"]
+         (parse "-123.0")
+         (parse " -123.0 ")))
+  (is (= [:num ".1"] (parse ".1")))
+  (is (= [:num "-1."] (parse "-1."))))
 
 (deftest test-text
   (is (= [:text "abc"]

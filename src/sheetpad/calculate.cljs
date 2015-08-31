@@ -8,7 +8,7 @@
     <formula> = <'='> formula-value
     <formula-value> = <space> (invalid | add-sub | num | quoted | item | group) <space>
     group = <'('> formula-value <')'>
-    num = <space> #'(\\d|\\.)+' <space>
+    num = <space> #'(\\+|-)?(\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)' <space>
     <quoted> = <quote> text <quote>
     quote = '\"' | '\\''
     text = #'[^\"\\']*'
