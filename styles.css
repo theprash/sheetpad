@@ -3,11 +3,16 @@ div, h1, input, button {
     font-size: 105%;
 }
 
-.item {
+.item, .add-item {
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
 input[readonly] {
     background-color: #EEF;
+}
+
+.db-view {
+    width: 100%;
+    white-space: pre;
 }

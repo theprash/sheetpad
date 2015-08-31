@@ -47,7 +47,7 @@
 
 (defn db-view []
   [:div.db-view
-   [:div (with-out-str (cljs.pprint/pprint @(subscribe [:sheetpad-sub])))]])
+   (with-out-str (cljs.pprint/pprint @(subscribe [:sheetpad-sub])))])
 
 (defn app []
   [:div
