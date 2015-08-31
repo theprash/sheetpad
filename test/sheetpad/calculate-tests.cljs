@@ -15,6 +15,7 @@
   (is (= 1
          (parse-and-calculate "1")
          (parse-and-calculate " 1 ")
+         (parse-and-calculate "+1")
          (parse-and-calculate "=1")
          (parse-and-calculate "= 1 "))))
 
