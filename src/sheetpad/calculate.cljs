@@ -4,7 +4,7 @@
 (def parser
   (insta/parser
     "cell = non-formula | formula
-    <non-formula> = #'[^=].*' | text | num | ''
+    <non-formula> = #'[^=].*' | text | num
     <formula> = <'='> formula-value
     <formula-value> = <space> (invalid | add-sub | num | quoted | item | group) <space>
     group = <'('> formula-value <')'>

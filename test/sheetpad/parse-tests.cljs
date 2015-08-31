@@ -3,7 +3,7 @@
             [sheetpad.calculate :refer [parse]]))
 
 (deftest test-empty
-  (is (= nil
+  (is (= [:text ""]
          (parse ""))))
 
 (deftest test-number

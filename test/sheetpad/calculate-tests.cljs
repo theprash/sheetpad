@@ -11,6 +11,10 @@
        calc/parse
        (calc/calculate items))))
 
+(deftest test-empty
+  (is (= ""
+         (parse-and-calculate ""))))
+
 (deftest test-number
   (is (= 1
          (parse-and-calculate "1")
