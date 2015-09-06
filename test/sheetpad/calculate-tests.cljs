@@ -58,3 +58,7 @@
          (parse-and-calculate "=3+1*2")
          (parse-and-calculate "=10-10/2")
          (parse-and-calculate "=-10/2 + 10"))))
+
+(deftest test-division-error
+  (is (re-find #"^#Error"
+               (parse-and-calculate "=1 - 1/0"))))
