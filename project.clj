@@ -4,7 +4,11 @@
                  [reagent "0.5.0"]
                  [re-frame "0.4.1"]
                  [lein-figwheel "0.3.7"]
-                 [com.lucasbradstreet/instaparse-cljs "1.3.5"]]
+                 [com.lucasbradstreet/instaparse-cljs "1.3.5"]
+                 [ring/ring-core "1.4.0"]
+                 [ring/ring-jetty-adapter "1.4.0"]]
+
+  :main sheetpad.core
 
   :aliases {"auto-test" ["do" "clean," "cljsbuild" "auto" "test"]}
 
@@ -33,9 +37,12 @@
                                         :elide-asserts true
                                         :pretty-print false}}}}}}
 
-  :figwheel {:repl false}
+  :figwheel {:repl false
+             :ring-handler sheetpad.core/app
+             :http-server-root "public"}
 
   :cljsbuild {:builds {:client {:source-paths ["src"]
                                 :compiler
-                                {:output-dir "target/client"
-                                 :output-to "target/client.js"}}}})
+                                {:output-dir "resources/public/js/client"
+                                 :output-to "resources/public/js/client.js"
+                                 :asset-path "js/client"}}}})
