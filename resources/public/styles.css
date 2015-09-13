@@ -13,6 +13,7 @@ input[readonly] {
 }
 
 .db-view {
+    padding-top: 1em;
     width: 100%;
     white-space: pre;
 }
