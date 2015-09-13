@@ -6,7 +6,8 @@
                  [lein-figwheel "0.3.7"]
                  [com.lucasbradstreet/instaparse-cljs "1.3.5"]
                  [ring/ring-core "1.4.0"]
-                 [ring/ring-jetty-adapter "1.4.0"]]
+                 [ring/ring-jetty-adapter "1.4.0"]
+                 [compojure "1.4.0"]]
 
   :source-paths ["src/clj"]
 

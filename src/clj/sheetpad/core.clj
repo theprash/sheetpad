@@ -1,18 +1,17 @@
 (ns sheetpad.core
   (:require [ring.adapter.jetty :as jetty]
-            [ring.middleware.resource :as resource]
-            [ring.middleware.content-type :as content-type]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [compojure.core :refer :all]
+            [compojure.route :as route]))
 
-(defn handler [request]
-  (when (request :uri)
-    (-> (response/resource-response "index.html" {:root "public"})
-        (response/content-type "text/html"))))
+(defn index-response []
+  (-> (response/resource-response "index.html" {:root "public"})
+      (response/content-type "text/html")))
 
-(def app
-  (-> handler
-      (resource/wrap-resource "public")
-      (content-type/wrap-content-type)))
+(defroutes app
+  (route/resources "/")
+  (GET "/" _ (index-response))
+  (route/not-found "<h1>Page not found</h1>"))
 
 (defn -main []
   (jetty/run-jetty app {:port 3000}))
