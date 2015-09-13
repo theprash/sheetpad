@@ -14,6 +14,9 @@
 
   :aliases {"auto-test" ["do" "clean," "cljsbuild" "auto" "test"]}
 
+  :clean-targets ^{:protect false} [:target-path
+                                    "resources/public/js"]
+
   :plugins [[lein-cljsbuild "1.0.6"]
             [lein-figwheel "0.3.7"]]
 
