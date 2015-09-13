@@ -8,6 +8,8 @@
                  [ring/ring-core "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]]
 
+  :source-paths ["src/clj"]
+
   :main sheetpad.core
 
   :aliases {"auto-test" ["do" "clean," "cljsbuild" "auto" "test"]}
@@ -24,25 +26,23 @@
                                                   :optimizations :none
                                                   :source-map true
                                                   :source-map-timestamp true}}
-                                        :test {:source-paths ["src/sheetpad" "test/sheetpad"]
+                                        :test {:source-paths ["src/cljs" "test/cljs"]
                                                :notify-command ["phantomjs" :cljs.test/runner
                                                                 "target/test.js"]
                                                :compiler {:output-to "target/test.js"
                                                           :optimizations :whitespace
                                                           :pretty-print true}}}}}
 
-             :prod {:cljsbuild
-                    {:builds {:client {:compiler
-                                       {:optimizations :advanced
-                                        :elide-asserts true
-                                        :pretty-print false}}}}}}
+             :prod {:cljsbuild {:builds {:client {:compiler
+                                                  {:optimizations :advanced
+                                                   :elide-asserts true
+                                                   :pretty-print false}}}}}}
 
   :figwheel {:repl false
              :ring-handler sheetpad.core/app
              :http-server-root "public"}
 
-  :cljsbuild {:builds {:client {:source-paths ["src"]
-                                :compiler
-                                {:output-dir "resources/public/js/client"
-                                 :output-to "resources/public/js/client.js"
-                                 :asset-path "js/client"}}}})
+  :cljsbuild {:builds {:client {:source-paths ["src/cljs"]
+                                :compiler {:output-dir "resources/public/js/client"
+                                           :output-to "resources/public/js/client.js"
+                                           :asset-path "js/client"}}}})
