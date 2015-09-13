@@ -13,3 +13,9 @@
   (fn
     [db _]
     (reaction (-> @db :sheetpad :items))))
+
+(register-sub
+  :sheets-sub
+  (fn
+    [db _]
+    (reaction (-> @db :sheetpad :sheets))))

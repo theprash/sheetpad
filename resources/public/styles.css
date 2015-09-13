@@ -12,7 +12,7 @@ input[readonly] {
     background-color: #EEF;
 }
 
-.db-view {
+.items-view {
     padding-top: 1em;
     width: 100%;
     white-space: pre;

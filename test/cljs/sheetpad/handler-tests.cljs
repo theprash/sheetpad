@@ -9,7 +9,7 @@
       (partition 2 <>)
       (mapv item-from-pair <>)
       (mapv #(handlers/parse-and-calculate-item % <>) <>)
-      (handlers/recalc-all-items <>))))
+      (handlers/calc-all-items <>))))
 
 (deftest test-item-references
   (let [items (setup-items "a" "1"

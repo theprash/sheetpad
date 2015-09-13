@@ -45,15 +45,26 @@
     {:on-click #(dispatch [:add-item-handler])}
     "Add"]])
 
-(defn db-view []
-  [:div.db-view
-   (with-out-str (cljs.pprint/pprint @(subscribe [:sheetpad-sub])))])
+(defn load-sheets []
+  [:div "Load sheet:"
+   (map (fn [{:keys [name items]} _]
+          [:div
+           [:a
+            {:href "#"
+             :on-click #(dispatch [:set-items items])}
+            name]])
+        @(subscribe [:sheets-sub]))])
+
+(defn items-view []
+  [:div.items-view
+   (with-out-str (cljs.pprint/pprint @(subscribe [:items-sub])))])
 
 (defn app []
   [:div
    [items]
    [add-item]
-   [db-view]])
+   [load-sheets]
+   [items-view]])
 
 (defn run []
   (reagent/render [app]

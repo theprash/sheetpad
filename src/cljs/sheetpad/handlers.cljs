@@ -2,7 +2,8 @@
   (:require [re-frame.core :refer [register-handler
                                    path]]
             [sheetpad.util :as util]
-            [sheetpad.calculate :as calc]))
+            [sheetpad.calculate :as calc]
+            [sheetpad.sheets :as sheets]))
 
 (def new-item
   {:name "-"
@@ -10,22 +11,30 @@
    :parsed-value nil
    :calculated-value nil})
 
+(defn parse-item [item]
+  (assoc item :parsed-value (calc/parse (item :raw-value))))
+
 (defn calculate-item [item items]
-  (let [calculated (calc/calculate (item :parsed-value) items)]
-    (merge item {:calculated-value calculated})))
+  (assoc item :calculated-value (calc/calculate
+                                  (item :parsed-value)
+                                  items)))
 
 (defn parse-and-calculate-item [item items]
-  (let [parsed (calc/parse (item :raw-value))
-        calculated (calc/calculate parsed items)]
-    (merge item {:parsed-value parsed
-                 :calculated-value calculated})))
+  (-> item
+      parse-item
+      (calculate-item items)))
 
 (defn update-item [items item value]
   (-> item
       (assoc :raw-value value)
       (parse-and-calculate-item items)))
 
-(defn recalc-all-items [items]
+(defn parse-all-items [items]
+  (mapv parse-item
+        items))
+
+(defn calc-all-items [items]
+  (println items)
   (let [item-count (count items)]
     (loop [index 0
            items items]
@@ -38,13 +47,11 @@
 (defn set-value-handler [item-id value items]
   (-> items
       (update-in [item-id] #(update-item items % value))
-      recalc-all-items))
-
-(defn app-state [items]
-  {:sheetpad {:items items}})
+      calc-all-items))
 
 (def initial-state
-  (app-state [new-item]))
+  {:sheetpad {:items [new-item]
+              :sheets sheets/default-sheets}})
 
 (register-handler
   :initialize
@@ -64,7 +71,7 @@
   (fn [items [_ value]]
     (-> items
         (util/vec-remove value)
-        recalc-all-items)))
+        calc-all-items)))
 
 (register-handler
   :set-name
@@ -77,3 +84,11 @@
   (path [:sheetpad :items])
   (fn [items [_ item-id value]]
     (set-value-handler item-id value items)))
+
+(register-handler
+  :set-items
+  (path [:sheetpad :items])
+  (fn [items [_ new-items]]
+    (-> new-items
+        parse-all-items
+        calc-all-items)))
