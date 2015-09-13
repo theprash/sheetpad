@@ -43,8 +43,7 @@
                                                    :pretty-print false}}}}}}
 
   :figwheel {:repl false
-             :ring-handler sheetpad.core/app
-             :http-server-root "public"}
+             :ring-handler sheetpad.core/app}
 
   :cljsbuild {:builds {:client {:source-paths ["src/cljs"]
                                 :compiler {:output-dir "resources/public/js/client"
