@@ -5,12 +5,6 @@
             [sheetpad.calculate :as calc]
             [sheetpad.sheets :as sheets]))
 
-(def new-item
-  {:name "-"
-   :raw-value ""
-   :parsed-value nil
-   :calculated-value nil})
-
 (defn parse-item [item]
   (assoc item :parsed-value (calc/parse (item :raw-value))))
 
@@ -24,6 +18,12 @@
       parse-item
       (calculate-item items)))
 
+(def new-item
+  (parse-and-calculate-item
+    {:name "-"
+     :raw-value ""}
+    []))
+
 (defn update-item [items item value]
   (-> item
       (assoc :raw-value value)
@@ -34,7 +34,6 @@
         items))
 
 (defn calc-all-items [items]
-  (println items)
   (let [item-count (count items)]
     (loop [index 0
            items items]
