@@ -121,7 +121,6 @@
 
 (register-handler
   :delete-sheet
-  (path [:sheetpad :items])
   (fn [db [_ sheet-name]]
     (ajax/POST (str "/delete-sheet/" sheet-name)
                {:handler (fn [r]
