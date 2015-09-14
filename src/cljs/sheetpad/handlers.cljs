@@ -58,6 +58,7 @@
   :initialize
   (fn
     [db _]
+    (dispatch [:get-sheet-names])
     (merge db initial-state)))
 
 (register-handler
@@ -108,3 +109,12 @@
     (-> new-items
         parse-all-items
         calc-all-items)))
+
+(register-handler
+  :get-and-set-items
+  (path [:sheetpad :items])
+  (fn [items [_ sheet-name]]
+    (ajax/GET (str "/sheets/" sheet-name)
+              {:handler (fn [r]
+                          (let [items (-> r cljs.reader/read-string :items)]
+                            (dispatch [:set-items items])))})))

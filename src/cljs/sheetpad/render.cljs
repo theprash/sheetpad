@@ -51,7 +51,7 @@
           [:div
            [:a
             {:href "#"
-             :on-click #(js/console.log (str "GET " sheet-name " items"))}
+             :on-click #(dispatch [:get-and-set-items sheet-name])}
             sheet-name]])
         @(subscribe [:sheets-sub]))])
 
