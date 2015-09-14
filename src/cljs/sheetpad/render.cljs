@@ -47,12 +47,12 @@
 
 (defn load-sheets []
   [:div "Load sheet:"
-   (map (fn [{:keys [name items]} _]
+   (map (fn [sheet-name]
           [:div
            [:a
             {:href "#"
-             :on-click #(dispatch [:set-items items])}
-            name]])
+             :on-click #(js/console.log (str "GET " sheet-name " items"))}
+            sheet-name]])
         @(subscribe [:sheets-sub]))])
 
 (defn items-view []

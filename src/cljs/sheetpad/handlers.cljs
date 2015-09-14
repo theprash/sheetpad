@@ -1,9 +1,11 @@
 (ns sheetpad.handlers
   (:require [re-frame.core :refer [register-handler
-                                   path]]
+                                   path
+                                   dispatch]]
             [sheetpad.util :as util]
             [sheetpad.calculate :as calc]
-            [sheetpad.sheets :as sheets]))
+            [ajax.core :as ajax]
+            [cljs.reader]))
 
 (defn parse-item [item]
   (assoc item :parsed-value (calc/parse (item :raw-value))))
@@ -50,13 +52,28 @@
 
 (def initial-state
   {:sheetpad {:items [new-item]
-              :sheets sheets/default-sheets}})
+              :sheets []}})
 
 (register-handler
   :initialize
   (fn
     [db _]
     (merge db initial-state)))
+
+(register-handler
+  :update-sheet-names
+  (path [:sheetpad :sheets])
+  (fn [_ [_ sheet-names]]
+    sheet-names))
+
+(register-handler
+  :get-sheet-names
+  (fn [db _]
+    (ajax/GET "/sheets"
+              {:handler (fn [r]
+                          (dispatch
+                            [:update-sheet-names (cljs.reader/read-string r)]))})
+    db))
 
 (register-handler
   :add-item-handler

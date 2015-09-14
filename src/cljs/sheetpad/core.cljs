@@ -8,5 +8,6 @@
 (enable-console-print!)
 
 (dispatch-sync [:initialize])
+(dispatch-sync [:get-sheet-names])
 
 (def ^:export run render/run)

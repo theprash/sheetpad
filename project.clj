@@ -7,7 +7,8 @@
                  [com.lucasbradstreet/instaparse-cljs "1.3.5"]
                  [ring/ring-core "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]
-                 [compojure "1.4.0"]]
+                 [compojure "1.4.0"]
+                 [cljs-ajax "0.3.14"]]
 
   :source-paths ["src/clj"]
 
