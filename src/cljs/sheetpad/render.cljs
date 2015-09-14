@@ -52,7 +52,8 @@
            [:a
             {:href "#"
              :on-click #(dispatch [:get-and-set-items sheet-name])}
-            sheet-name]])
+            sheet-name]
+           [:button {:on-click #(dispatch [:delete-sheet sheet-name])} "x"]])
         @(subscribe [:sheets-sub]))])
 
 (defn items-view []

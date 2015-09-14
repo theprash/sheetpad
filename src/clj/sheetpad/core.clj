@@ -11,8 +11,9 @@
 
 (defroutes app
   (GET "/" _ (index-response))
-  (GET "/sheets/:name" [name] (->> name ((sheets/sheets :by-name)) str))
-  (GET "/sheets" _ (->> ((sheets/sheets :names)) str))
+  (GET "/sheets/:name" [name] (-> name ((sheets/sheets :by-name)) str))
+  (GET "/sheets" _ (-> ((sheets/sheets :names)) str))
+  (POST "/delete-sheet/:name" [name] ((sheets/sheets :delete) name))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 

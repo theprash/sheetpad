@@ -112,9 +112,18 @@
 
 (register-handler
   :get-and-set-items
-  (path [:sheetpad :items])
-  (fn [items [_ sheet-name]]
+  (fn [db [_ sheet-name]]
     (ajax/GET (str "/sheets/" sheet-name)
               {:handler (fn [r]
                           (let [items (-> r cljs.reader/read-string :items)]
-                            (dispatch [:set-items items])))})))
+                            (dispatch [:set-items items])))})
+    db))
+
+(register-handler
+  :delete-sheet
+  (path [:sheetpad :items])
+  (fn [db [_ sheet-name]]
+    (ajax/POST (str "/delete-sheet/" sheet-name)
+               {:handler (fn [r]
+                           (dispatch [:get-sheet-names]))})
+    db))

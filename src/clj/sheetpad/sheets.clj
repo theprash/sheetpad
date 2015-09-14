@@ -19,14 +19,21 @@
                                     {:name "l" :raw-value "=[k] + 1"}
                                     {:name "m" :raw-value "=[l] + 1"}
                                     {:name "n" :raw-value "=[m] + 1"}]}])]
-    {:by-name (fn [name]
+    {:by-name (fn [sheet-name]
                 (or
                   (->> @sheets-atom
-                       (filter #(= (% :name) name))
+                       (filter #(= (% :name) sheet-name))
                        first)
                   {:error "Sheet not found"}))
 
      :names (fn [] (mapv :name @sheets-atom))
 
-     :add (fn [name items]
-            (swap! sheets-atom #(conj % {:name name :items items})))}))
+     :add (fn [sheet-name items]
+            (swap! sheets-atom #(conj % {:name sheet-name :items items})))
+
+     :delete (fn [sheet-name]
+               (swap! sheets-atom (fn [sheets]
+                                    (->> sheets
+                                         (remove #(= (% :name) sheet-name))
+                                         vec)))
+               "")}))
