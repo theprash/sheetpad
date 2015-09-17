@@ -52,8 +52,8 @@
       calc-all-items))
 
 (def initial-state
-  {:sheetpad {:items [new-item]
-              :sheets []}
+  {:sheetpad {:items [new-item]}
+   :sheets []
    :save-sheet-name ""})
 
 (register-handler
@@ -65,7 +65,7 @@
 
 (register-handler
   :update-sheet-names
-  (path [:sheetpad :sheets])
+  (path [:sheets])
   (fn [_ [_ sheet-names]]
     sheet-names))
 

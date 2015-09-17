@@ -18,7 +18,7 @@
   :sheets-sub
   (fn
     [db _]
-    (reaction (-> @db :sheetpad :sheets))))
+    (reaction (-> @db :sheets))))
 
 (register-sub
   :save-sheet-name-sub
