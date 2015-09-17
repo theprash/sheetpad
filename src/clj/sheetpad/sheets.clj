@@ -28,8 +28,9 @@
 
      :names (fn [] (mapv :name @sheets-atom))
 
-     :add (fn [sheet-name items]
-            (swap! sheets-atom #(conj % {:name sheet-name :items items})))
+     :add (fn [{:keys [sheet-name items]}]
+            (swap! sheets-atom #(conj % {:name sheet-name :items items}))
+            "")
 
      :delete (fn [{:keys [sheet-name]}]
                (swap! sheets-atom (fn [sheets]

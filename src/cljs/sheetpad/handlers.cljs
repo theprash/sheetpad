@@ -53,7 +53,8 @@
 
 (def initial-state
   {:sheetpad {:items [new-item]
-              :sheets []}})
+              :sheets []}
+   :save-sheet-name ""})
 
 (register-handler
   :initialize
@@ -118,6 +119,22 @@
       (let [response (<! (http/get (str "/sheets/" sheet-name)))
             items (-> response :body cljs.reader/read-string :items)]
         (dispatch [:set-items items])))
+    db))
+
+(register-handler
+  :set-save-sheet-name
+  (path [:save-sheet-name])
+  (fn [_ [_ new-name]]
+    new-name))
+
+(register-handler
+  :save-sheet
+  (fn [db _]
+    (go
+      (let [response (<! (http/post "/save-sheet"
+                                    {:edn-params {:sheet-name (db :save-sheet-name)
+                                                  :items (-> db :sheetpad :items)}}))]
+        (dispatch [:get-sheet-names])))
     db))
 
 (register-handler

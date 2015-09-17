@@ -19,3 +19,9 @@
   (fn
     [db _]
     (reaction (-> @db :sheetpad :sheets))))
+
+(register-sub
+  :save-sheet-name-sub
+  (fn
+    [db _]
+    (reaction (-> @db :save-sheet-name))))

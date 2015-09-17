@@ -56,6 +56,13 @@
            [:button {:on-click #(dispatch [:delete-sheet sheet-name])} "x"]])
         @(subscribe [:sheets-sub]))])
 
+(defn save-sheet []
+  [:div
+   [:input {:value @(subscribe [:save-sheet-name-sub])
+            :on-change #(let [new-value (-> % .-target .-value)]
+                          (dispatch-sync [:set-save-sheet-name new-value]))}]
+   [:button {:on-click #(dispatch [:save-sheet])} "Save sheet"]])
+
 (defn items-view []
   [:div.items-view
    (with-out-str (cljs.pprint/pprint @(subscribe [:items-sub])))])
@@ -65,6 +72,7 @@
    [items]
    [add-item]
    [load-sheets]
+   [save-sheet]
    [items-view]])
 
 (defn run []
