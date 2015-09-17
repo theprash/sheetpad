@@ -9,14 +9,20 @@
   (-> (response/resource-response "index.html" {:root "public"})
       (response/content-type "text/html")))
 
+(defn get-sheet-names-edn [] (-> ((sheets/sheets :names)) str))
+
 (def read-body (comp clojure.edn/read-string slurp :body))
 
 (defroutes app
   (GET "/" _ (index-response))
   (GET "/sheets/:name" [name] (-> name ((sheets/sheets :by-name)) str))
-  (GET "/sheets" _ (-> ((sheets/sheets :names)) str))
-  (POST "/save-sheet" req ((sheets/sheets :add) (read-body req)))
-  (POST "/delete-sheet" req ((sheets/sheets :delete) (read-body req)))
+  (GET "/sheets" _ (get-sheet-names-edn))
+  (POST "/save-sheet" req
+        (do ((sheets/sheets :add) (read-body req))
+            (get-sheet-names-edn)))
+  (POST "/delete-sheet" req
+        (do ((sheets/sheets :delete) (read-body req))
+            (get-sheet-names-edn)))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 

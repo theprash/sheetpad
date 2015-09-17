@@ -133,8 +133,9 @@
     (go
       (let [response (<! (http/post "/save-sheet"
                                     {:edn-params {:sheet-name (db :save-sheet-name)
-                                                  :items (-> db :sheetpad :items)}}))]
-        (dispatch [:get-sheet-names])))
+                                                  :items (-> db :sheetpad :items)}}))
+            sheet-names (-> response :body cljs.reader/read-string)]
+        (dispatch [:update-sheet-names sheet-names])))
     db))
 
 (register-handler
@@ -142,6 +143,7 @@
   (fn [db [_ sheet-name]]
     (go
       (let [response (<! (http/post "/delete-sheet"
-                                    {:edn-params {:sheet-name sheet-name}}))]
-        (dispatch [:get-sheet-names])))
+                                    {:edn-params {:sheet-name sheet-name}}))
+            sheet-names (-> response :body cljs.reader/read-string)]
+        (dispatch [:update-sheet-names sheet-names])))
     db))
