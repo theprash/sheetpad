@@ -9,17 +9,15 @@
   (let [name (-> item :name)]
     [:span
      [:input {:value name
-              :on-change #(dispatch-sync
-                            (let [new-name (-> % .-target .-value)]
-                              [:set-name item-id new-name]))}]]))
+              :on-change #(let [new-name (-> % .-target .-value)]
+                            (dispatch-sync [:set-name item-id new-name]))}]]))
 
 (defn value-editor [item item-id]
   (let [value (-> item :raw-value)]
     [:span
      [:input {:value value
-              :on-change #(dispatch-sync
-                            (let [new-value (-> % .-target .-value)]
-                              [:set-value item-id new-value]))}]]))
+              :on-change #(let [new-value (-> % .-target .-value)]
+                            (dispatch-sync [:set-value item-id new-value]))}]]))
 
 (defn calculated-value-display [value]
   [:input {:value value :read-only true}])
