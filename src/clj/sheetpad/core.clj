@@ -13,7 +13,10 @@
   (GET "/" _ (index-response))
   (GET "/sheets/:name" [name] (-> name ((sheets/sheets :by-name)) str))
   (GET "/sheets" _ (-> ((sheets/sheets :names)) str))
-  (POST "/delete-sheet/:name" [name] ((sheets/sheets :delete) name))
+  (POST "/delete-sheet" {body :body} (let [data (-> body
+                                                    slurp
+                                                    clojure.edn/read-string)]
+                                       ((sheets/sheets :delete) data)))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 

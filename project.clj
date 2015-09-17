@@ -8,7 +8,7 @@
                  [ring/ring-core "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]
                  [compojure "1.4.0"]
-                 [cljs-ajax "0.3.14"]]
+                 [cljs-http "0.1.37"]]
 
   :source-paths ["src/clj"]
 

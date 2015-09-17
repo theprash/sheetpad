@@ -4,8 +4,9 @@
                                    dispatch]]
             [sheetpad.util :as util]
             [sheetpad.calculate :as calc]
-            [ajax.core :as ajax]
-            [cljs.reader]))
+            [cljs-http.client :as http]
+            [cljs.core.async :refer [<!]])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn parse-item [item]
   (assoc item :parsed-value (calc/parse (item :raw-value))))
@@ -70,10 +71,10 @@
 (register-handler
   :get-sheet-names
   (fn [db _]
-    (ajax/GET "/sheets"
-              {:handler (fn [r]
-                          (dispatch
-                            [:update-sheet-names (cljs.reader/read-string r)]))})
+    (go
+      (let [response (<! (http/get "/sheets"))
+            sheet-names (-> response :body cljs.reader/read-string)]
+        (dispatch [:update-sheet-names sheet-names])))
     db))
 
 (register-handler
@@ -113,16 +114,17 @@
 (register-handler
   :get-and-set-items
   (fn [db [_ sheet-name]]
-    (ajax/GET (str "/sheets/" sheet-name)
-              {:handler (fn [r]
-                          (let [items (-> r cljs.reader/read-string :items)]
-                            (dispatch [:set-items items])))})
+    (go
+      (let [response (<! (http/get (str "/sheets/" sheet-name)))
+            items (-> response :body cljs.reader/read-string :items)]
+        (dispatch [:set-items items])))
     db))
 
 (register-handler
   :delete-sheet
   (fn [db [_ sheet-name]]
-    (ajax/POST (str "/delete-sheet/" sheet-name)
-               {:handler (fn [r]
-                           (dispatch [:get-sheet-names]))})
+    (go
+      (let [response (<! (http/post "/delete-sheet"
+                                    {:edn-params {:sheet-name sheet-name}}))]
+        (dispatch [:get-sheet-names])))
     db))

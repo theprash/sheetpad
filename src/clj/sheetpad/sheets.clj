@@ -31,7 +31,7 @@
      :add (fn [sheet-name items]
             (swap! sheets-atom #(conj % {:name sheet-name :items items})))
 
-     :delete (fn [sheet-name]
+     :delete (fn [{:keys [sheet-name]}]
                (swap! sheets-atom (fn [sheets]
                                     (->> sheets
                                          (remove #(= (% :name) sheet-name))
