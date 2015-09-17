@@ -47,6 +47,7 @@
   [:div "Load sheet:"
    (map (fn [sheet-name]
           [:div
+           {:key sheet-name}
            [:a
             {:href "#"
              :on-click #(dispatch [:get-and-set-items sheet-name])}
