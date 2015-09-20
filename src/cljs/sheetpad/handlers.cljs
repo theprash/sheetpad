@@ -79,13 +79,13 @@
     db))
 
 (register-handler
-  :add-item-handler
+  :add-item
   (path [:sheetpad :items])
   (fn [items _]
     (conj items new-item)))
 
 (register-handler
-  :delete-item-handler
+  :delete-item
   (path [:sheetpad :items])
   (fn [items [_ value]]
     (-> items

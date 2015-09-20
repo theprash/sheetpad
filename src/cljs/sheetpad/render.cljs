@@ -28,7 +28,7 @@
    (value-editor item item-id)
    (calculated-value-display (-> item :calculated-value))
    [:span [:button
-           {:on-click #(dispatch [:delete-item-handler item-id])}
+           {:on-click #(dispatch [:delete-item item-id])}
            "x"]]])
 
 (defn items []
@@ -40,7 +40,7 @@
 (defn add-item []
   [:div.add-item
    [:button
-    {:on-click #(dispatch [:add-item-handler])}
+    {:on-click #(dispatch [:add-item])}
     "Add"]])
 
 (defn load-sheets []
