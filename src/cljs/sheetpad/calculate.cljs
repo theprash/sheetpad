@@ -38,25 +38,24 @@
 
 (defn calculate-result [[tag & [a b :as body]] items]
   (let [calc #(calculate-result % items)
-        get-failures #(->> %
-                           (filter coll?)
-                           (filter (comp #{:error :invalid} first)))
-        result (fn [f & args]
-                 (let [results (map calc args)
-                       failures (get-failures results)]
-                   (if-let [failure (first failures)]
-                     failure
-                     (apply f results))))]
+        fn-result (fn [f & args]
+                     (let [results (map calc args)
+                           failure (->> results
+                                        (filter coll?)
+                                        (filter (comp #{:error :invalid} first))
+                                        first)]
+                       (or failure
+                           (apply f results))))]
     (case tag
       :num (js/parseFloat a)
       :text a
-      :add (result + a b)
-      :sub (result - a b)
-      :mul (result * a b)
+      :add (fn-result + a b)
+      :sub (fn-result - a b)
+      :mul (fn-result * a b)
       :div (let [b' (calc b)]
              (if (zero? b')
                (calc [:error "Divided by zero."])
-               (result / a b)))
+               (fn-result / a b)))
       :group (calculate-result a items)
       :item (item-value a items)
       :error [:error a]
