@@ -8,6 +8,10 @@ div, h1, input, button {
     padding-bottom: 10px;
 }
 
+.item .item input {
+    width: 80px;
+}
+
 input[readonly] {
     background-color: #EEF;
 }

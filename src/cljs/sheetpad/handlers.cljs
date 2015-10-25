@@ -9,7 +9,9 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn parse-item [item]
-  (assoc item :parsed-value (calc/parse (item :raw-value))))
+  (cond
+    (:raw-value item) (assoc item :parsed-value (calc/parse (:raw-value item)))
+    (:columns item) (mapv parse-item (:columns item))))
 
 (defn calculate-item [item items]
   (assoc item :calculated-value (calc/calculate
@@ -29,6 +31,14 @@
 
 (def new-single-item
   (single-item "-" ""))
+
+(defn table-item [name columns]
+  {:name name
+   :columns (vec columns)})
+
+(def new-table-item
+  (table-item "-" [[new-single-item new-single-item]
+                   [new-single-item new-single-item]]))
 
 (defn update-item [items item value]
   (-> item
@@ -55,7 +65,7 @@
       calc-all-items))
 
 (def initial-state
-  {:sheetpad {:items [new-single-item]}
+  {:sheetpad {:items [new-single-item new-table-item]}
    :sheets []
    :save-sheet-name ""})
 
@@ -82,10 +92,16 @@
     db))
 
 (register-handler
-  :add-item
+  :add-single-item
   (path [:sheetpad :items])
   (fn [items _]
     (conj items new-single-item)))
+
+(register-handler
+  :add-table-item
+  (path [:sheetpad :items])
+  (fn [items _]
+    (conj items new-table-item)))
 
 (register-handler
   :delete-item

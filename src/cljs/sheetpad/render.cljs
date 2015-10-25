@@ -22,26 +22,36 @@
 (defn calculated-value-display [value]
   [:input {:value value :read-only true}])
 
-(defn item [item-id item]
-  [:div.item
-   (name-editor item item-id)
-   (value-editor item item-id)
-   (calculated-value-display (-> item :calculated-value))
-   [:span [:button
-           {:on-click #(dispatch [:delete-item item-id])}
-           "x"]]])
+(defn make-item [item-id item]
+  (cond
+    (:raw-value item) [:div.item
+                       (name-editor item item-id)
+                       (value-editor item item-id)
+                       (calculated-value-display (-> item :calculated-value))
+                       [:span [:button
+                               {:on-click #(dispatch [:delete-item item-id])}
+                               "x"]]]
+    (:columns item) (into [:div.item]
+                          (map #(into [:div] (map-indexed make-item %))
+                               (:columns item)))))
 
 (defn items []
   (let [items-sub (subscribe [:items-sub])]
     (fn []
       (into [:div.items]
-            (map-indexed item @items-sub)))))
+            (map-indexed make-item @items-sub)))))
 
-(defn add-item []
+(defn add-single-item []
   [:div.add-item
    [:button
-    {:on-click #(dispatch [:add-item])}
+    {:on-click #(dispatch [:add-single-item])}
     "Add"]])
+
+(defn add-table-item []
+  [:div.add-item
+   [:button
+    {:on-click #(dispatch [:add-table-item])}
+    "Add Table"]])
 
 (defn load-sheets []
   [:div "Load sheet:"
@@ -69,7 +79,8 @@
 (defn app []
   [:div
    [items]
-   [add-item]
+   [add-single-item]
+   [add-table-item]
    [load-sheets]
    [save-sheet]
    [items-view]])
