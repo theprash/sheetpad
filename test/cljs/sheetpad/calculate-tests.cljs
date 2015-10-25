@@ -45,8 +45,8 @@
          (parse-and-calculate "=(5 + 7) / 3"))))
 
 (deftest test-item-reference
-  (let [items [(merge handlers/new-item {:name "a" :calculated-value 3})
-               (merge handlers/new-item {:name "b" :calculated-value 2})]]
+  (let [items [(handlers/single-item "a" 3)
+               (handlers/single-item "b" 2)]]
     (is (= 3
            (parse-and-calculate "=[a]" items)))
     (is (= 5

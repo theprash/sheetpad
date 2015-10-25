@@ -21,11 +21,14 @@
       parse-item
       (calculate-item items)))
 
-(def new-item
+(defn single-item [name value]
   (parse-and-calculate-item
-    {:name "-"
-     :raw-value ""}
+    {:name name
+     :raw-value value}
     []))
+
+(def new-single-item
+  (single-item "-" ""))
 
 (defn update-item [items item value]
   (-> item
@@ -52,7 +55,7 @@
       calc-all-items))
 
 (def initial-state
-  {:sheetpad {:items [new-item]}
+  {:sheetpad {:items [new-single-item]}
    :sheets []
    :save-sheet-name ""})
 
@@ -82,7 +85,7 @@
   :add-item
   (path [:sheetpad :items])
   (fn [items _]
-    (conj items new-item)))
+    (conj items new-single-item)))
 
 (register-handler
   :delete-item
